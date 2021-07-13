@@ -1,0 +1,28 @@
+{
+  "name": "ionic-env-cli",
+  "version": "0.0.1",
+  "description": "Ionic environment-aware commands for Capacitor and React project",
+  "author": "ラ・ビ・アン・ローズ",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rabianr/ionic-env-cli.git"
+  },
+  "engines": {
+    "node": ">=14.14.0"
+  },
+  "type": "module",
+  "bin": {
+    "ionic-env": "./ionic-env.js"
+  },
+  "dependencies": {
+    "@ionic/cli": "^6.16.3",
+    "is-wsl": "^2.2.0",
+    "kleur": "^4.1.4",
+    "meow": "^10.0.1"
+  },
+  "peerDependencies": {
+    "@capacitor/cli": "^3.1.1",
+    "react-scripts": "^4.0.3"
+  }
+}
