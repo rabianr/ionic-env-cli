@@ -121,9 +121,11 @@ const envFilesDirAbs = path.resolve(process.cwd(), 'env-files')
 // https://github.com/motdotla/dotenv
 // https://github.com/motdotla/dotenv-expand
 ;[
+  `.env.${env}.local`,
   '.env.local',
   `.env.${env}`,
   '.env',
+  path.resolve(envFilesDirAbs, `.env.${env}.local`),
   path.resolve(envFilesDirAbs, '.env.local'),
   path.resolve(envFilesDirAbs, `.env.${env}`),
   path.resolve(envFilesDirAbs, '.env'),

@@ -264,6 +264,7 @@ export async function build (flags, env, envFilesDirAbs) {
       'generic/platform=iOS',
       '-derivedDataPath',
       derivedDataPath,
+      '-allowProvisioningUpdates',
     ]
 
     console.log(`> ${kleur.cyan([ 'xcodebuild', ...xcodebuildArgs ].join(' '))}`)
@@ -378,6 +379,9 @@ export async function build (flags, env, envFilesDirAbs) {
 function getEnvironmentFilePath(fileName, env, envFilesDirAbs) {
   const [ name, ext ] = fileName.split('.')
   let filePath
+
+  filePath = path.join(envFilesDirAbs, `${name}.${env}.local.${ext}`)
+  if (fs.existsSync(filePath)) return filePath
 
   filePath = path.join(envFilesDirAbs, `${name}.local.${ext}`)
   if (fs.existsSync(filePath)) return filePath

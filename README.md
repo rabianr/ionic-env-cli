@@ -6,15 +6,19 @@ npm install https://github.com/rabianr/ionic-env-cli.git
 ## Project structure
 ```
 env-files/
+├── .env.<environment>.local
 ├── .env.local
 ├── .env.<environment>
 ├── .env
+├── google-services.<environment>.local.json
 ├── google-services.local.json
 ├── google-services.<environment>.json
 ├── google-services.json
+├── GoogleService-Info.<environment>.local.plist
 ├── GoogleService-Info.local.plist
 ├── GoogleService-Info.<environment>.plist
 ├── GoogleService-Info.plist
+├── ExportOptions.<environment>.local.plist
 ├── ExportOptions.local.plist
 ├── ExportOptions.<environment>.plist
 └── ExportOptions.plist
