@@ -28,17 +28,17 @@ env-files/
 - Files on the top have more priority than files on the bottom.
 ## Usage
 ```
-npx ionic-env build [options]
+npx ionic-env build <ios|android> [options]
 npx ionic-env serve [options]
 ```
 ## Options
 ```
 -e, --env <environment>      Build environment (e.g. dev, stg, prod). Default: dev
--p, --platform <name>        The platform to run (e.g. android, ios). Default both
 -r, --run                    This command first builds and deploys the native app to a target device
 -t, --target                 Deploy to a specific device by its ID
 -l, --livereload             Spin up dev server to live-reload www files
 --livereload-url             Provide a custom URL to the dev server
+--port                       Use specific port for the dev server
 --no-build                   Do not invoke Ionic build
 --no-copy                    Do not invoke Capacitor copy
 --no-update                  Do not invoke Capacitor update
@@ -75,5 +75,5 @@ npx ionic-env serve [options]
 ```
 ## Examples
 ```
-npx ionic-env build --env prod
+npx ionic-env build android --env prod
 ```

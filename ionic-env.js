@@ -10,16 +10,16 @@ import { serve } from './tasks/serve.js'
 
 const cli = meow(`
   Usage:
-    $ npx ionic-env build [options]
+    $ npx ionic-env build <ios|android> [options]
     $ npx ionic-env serve [options]
 
   Options:
     -e, --env <environment>      Build environment (e.g. dev, stg, prod). Default: dev
-    -p, --platform <name>        The platform to run (e.g. android, ios). Default both
     -r, --run                    This command first builds and deploys the native app to a target device
     -t, --target                 Deploy to a specific device by its ID
     -l, --livereload             Spin up dev server to live-reload www files
     --livereload-url             Provide a custom URL to the dev server
+    --port                       Use specific port for the dev server
     --no-build                   Do not invoke Ionic build
     --no-copy                    Do not invoke Capacitor copy
     --no-update                  Do not invoke Capacitor update
@@ -31,7 +31,7 @@ const cli = meow(`
     --verbose                    Print verbose output
 
   Examples
-    $ npx ionic-env build --env prod
+    $ npx ionic-env build android --env prod
 `, {
   importMeta: import.meta,
   flags: {
@@ -39,11 +39,6 @@ const cli = meow(`
       type: 'string',
       alias: 'e',
       default: 'development',
-    },
-    platform: {
-      type: 'string',
-      alias: 'p',
-      isRequired: flags => !! flags.run,
     },
     build: {
       type: 'boolean',
@@ -97,8 +92,6 @@ const cli = meow(`
   },
 })
 
-const command = cli.input[0]
-
 // Force color output when the process is executed as a child process
 process.env.NPM_CONFIG_COLOR = 'always'
 process.env.FORCE_COLOR = 1
@@ -135,16 +128,21 @@ const envFilesDirAbs = path.resolve(process.cwd(), 'env-files')
   }
 })
 
-if (cli.flags.livereload && ! cli.flags.livereloadUrl) {
-  cli.flags.livereloadUrl = 'http://localhost:8100'
-}
+const command = cli.input[0]
 
-if (cli.flags.livereloadUrl) {
-  cli.flags.livereload = true
-}
+if (command == 'build' && (cli.input[1] == 'ios' || cli.input[1] == 'android')) {
+  const { flags } = cli
+  flags.platform = cli.input[1]
 
-if (command == 'build') {
-  build(cli.flags, env, envFilesDirAbs)
+  if (flags.livereload && ! flags.livereloadUrl) {
+    flags.livereloadUrl = 'http://localhost:8100'
+  }
+
+  if (flags.livereloadUrl) {
+    flags.livereload = true
+  }
+
+  build(flags, env, envFilesDirAbs)
 } else if (command == 'serve') {
   serve(cli.flags)
 } else {

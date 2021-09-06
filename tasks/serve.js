@@ -8,7 +8,11 @@ export async function serve (flags) {
   process.env.BROWSER = 'none'
   process.env.PORT = flags.port
 
-  spawn.sync('npx', [ 'react-scripts', 'start' ], {
-    stdio: 'inherit',
+  const child = spawn('npx', [ 'react-scripts', 'start' ], {
+    stdio: [ 'ipc' ],
   })
+
+  child.stdout.on('data', data => process.stdout.write(data.toString()))
+
+  child.stderr.on('data', data => process.stdout.write(data.toString()))
 }
