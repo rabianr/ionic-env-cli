@@ -2,6 +2,8 @@ import spawn from 'cross-spawn'
 import kleur from 'kleur'
 
 export async function serve (flags) {
+  console.log(`${kleur.bold('ENVIRONMENT')}: ${kleur.cyan().bold(flags.env)}\n`)
+
   // Start a local dev server
   console.log(`> ${kleur.cyan('react-scripts start')}`)
 
