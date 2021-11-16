@@ -252,16 +252,16 @@ export async function build (flags, env, envFilesDirAbs) {
 
     const target = await promptForPlatformTarget(await getPlatformTargets('ios'), flags.target)
     const derivedDataPath = path.resolve(config.ios.platformDirAbs, 'DerivedData')
+    const configuration = flags.release ? 'Release' : 'Debug'
     const xcodebuildArgs = [
       '-workspace',
       path.basename(await config.ios.nativeXcodeWorkspaceDirAbs),
       '-scheme',
       config.ios.scheme,
       '-configuration',
-      flags.release ? 'Release' : 'Debug',
+      configuration,
       '-destination',
-      // `id=${target.id}`,
-      'generic/platform=iOS',
+      target.virtual ? `id=${target.id}` : 'generic/platform=iOS',
       '-derivedDataPath',
       derivedDataPath,
       '-allowProvisioningUpdates',
@@ -281,7 +281,8 @@ export async function build (flags, env, envFilesDirAbs) {
     }
 
     const appName = `${config.ios.scheme}.app`
-    const appPath = path.join(derivedDataPath, 'Build', 'Products', flags.release ? 'Release-iphoneos' : 'Debug-iphoneos', appName)
+    const targetDir = `${configuration}-${target.virtual ? 'iphonesimulator' : 'iphoneos'}`
+    const appPath = path.join(derivedDataPath, 'Build', 'Products', targetDir, appName)
     const runArgs = [ 'native-run', 'ios', '--app', appPath, '--target', target.id ]
 
     if (flags.verbose) {
